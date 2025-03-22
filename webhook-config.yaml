@@ -1,0 +1,21 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: exec-annotator
+webhooks:
+  - name: exec-annotator.k8s.io
+    clientConfig:
+      service:
+        name: exec-annotator-service
+        namespace: default
+        path: "/mutate"
+      caBundle: base64_ca
+    rules:
+      - operations: ["CONNECT"]
+        apiGroups: [""]
+        apiVersions: ["v1"]
+        resources: ["pods/exec"]
+    admissionReviewVersions: ["v1"]
+    sideEffects: "None"
+    timeoutSeconds: 10
+    failurePolicy: Fail

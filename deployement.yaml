@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exec-annotator
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: exec-annotator
+  template:
+    metadata:
+      labels:
+        app: exec-annotator
+    spec:
+      containers:
+        - name: webhook
+          image: webhook-image:latest
+          ports:
+            - containerPort: 8443
